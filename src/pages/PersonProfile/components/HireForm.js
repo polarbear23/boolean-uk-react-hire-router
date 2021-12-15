@@ -1,11 +1,21 @@
-import { useState } from "react"
-
+import react from "react";
+import { useState, useEffect } from "react"
+import { useNavigate } from "react-router-dom"
 function HireForm(props) {
   const [wage, setWage] = useState(0)
+  const { hiredPeople, person, setHiredPeople, setPerson } = props;
+  let navigate = useNavigate();
+  async function handleSubmit(event) {
+    event.preventDefault();
+    console.log(person);
+    setHiredPeople([...hiredPeople, person]);
+    navigate("/");
 
-  function handleSubmit(event) {
-    event.preventDefault()
   }
+
+  useEffect(() => {
+    setPerson({ ...person, wage: wage });
+  }, [wage])
 
   return (
     <form onSubmit={handleSubmit}>
@@ -17,7 +27,7 @@ function HireForm(props) {
         onChange={e => setWage(e.target.value)}
         value={wage}
       />
-      <button type="submit">Hire</button>
+      <button type="submit" onSubmit={handleSubmit}>Hire</button>
     </form>
   )
 }
